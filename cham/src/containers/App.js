@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from 'logo.svg';
 import 'App.css';
+import Card from 'Card.js';
 
 class App extends Component {
   render() {
@@ -13,6 +14,10 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+        <Card title="Temperature" value="67" unit="f" />
+        <Card title="Humidity" value="89" unit="%" />
+        <Card title="Time" value={Date.now()} />
+
       </div>
     );
   }
