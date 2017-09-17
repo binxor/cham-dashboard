@@ -1,5 +1,5 @@
 # Cham Dashboard
-This project was boilerplated using [create-react-app](https://facebook.github.io/react/blog/2016/07/22/create-apps-with-no-configuration.html), because react is a pain in the ass to configure in a vacuum.
+This project was boilerplated using [create-react-app](https://github.com/facebookincubator/create-react-app)(https://facebook.github.io/react/blog/2016/07/22/create-apps-with-no-configuration.html) , because react is a pain in the ass to configure in a vacuum.  [Tutorial](https://facebook.github.io/react/blog/2016/07/22/create-apps-with-no-configuration.html)
 
 ```sh
 $ npm install create-react-app 
