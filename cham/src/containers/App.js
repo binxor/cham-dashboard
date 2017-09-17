@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from 'logo.svg';
 import moment from 'moment';
 import 'App.css';
 import Card from 'Card.js';
@@ -9,17 +8,13 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <Card className="card col-sm-4" title="Temperature" value="67" unit="F" />
+          <Card className="card col-sm-4" title="Humidity" value="89" unit="%" />
+          <Card className="card col-sm-4" title="Time" value={moment().format("HH:mm")} />
         </div>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          Select an item above to see details
         </p>
-        <div className="row">
-          <Card title="Temperature" value="67" unit="f" />
-          <Card title="Humidity" value="89" unit="%" />
-          <Card title="Time" value={moment().format("HH:mm")} />
-        </div>
       </div>
     );
   }
