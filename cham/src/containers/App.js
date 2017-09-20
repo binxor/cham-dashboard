@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import 'App.css';
 import Card from 'Card.js';
+import Chart from 'Chart.js';
 
 class App extends Component {
   render() {
@@ -15,6 +16,9 @@ class App extends Component {
         <p className="App-intro">
           Select an item above to see details
         </p>
+        <div className="ChartArea">
+          <Chart />
+        </div>
       </div>
     );
   }
