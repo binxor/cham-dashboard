@@ -8,18 +8,17 @@ $ create-react-app cham
 
 
 Here's a summary of commands provided with the install:
-| COMMAND | RESULT |
-| ------ | ------ |
-| ``` $ npm start ``` | _Starts the development server._ |
-| ``` $ npm run build ``` | _Bundles the app into static files for production._ |
-| ``` $ npm test ``` | _Starts the test runner._ |
-| ``` $ npm run eject ``` | _Removes this tool and copies build dependencies, configuration files and scripts into the app directory. If you do this, you can’t go back!_ |
+
+- ``` $ npm start ``` | _Starts the development server._ |
+- ``` $ npm run build ``` | _Bundles the app into static files for production._ |
+- ``` $ npm test ``` | _Starts the test runner._ |
+- ``` $ npm run eject ``` | _Removes this tool and copies build dependencies, configuration files and scripts into the app directory. If you do this, you can’t go back!_ |
 
 ## Tech Stuff I Want to Use
 
-.git
-react
-fusioncharts
-react-fusioncharts 
-[See fusion charts demo](http://www.fusioncharts.com/react-charts/#/demos/ex3)
+- .git
+- react
+- recharts
+
+
 
