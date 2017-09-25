@@ -5,10 +5,10 @@ class Gauge extends Component {
     constructor(props) {
       super(props);
       this.state={
-        turnVal: Math.max(Math.min(this.props.value/200,0.5),0),
+        turnVal: Math.max(Math.min(this.props.data.val/200,0.5),0),
         top: this.props.top*35 + '%',
         left: this.props.left*25 + '%',
-        outOfRange: (this.props.value > 100 || this.props.value < 0)
+        outOfRange: (this.props.data.val > 100 || this.props.data.val < 0)
       }
     }
     render() {
@@ -35,12 +35,12 @@ class Gauge extends Component {
             <div className="gauge-c" style={meter}></div>
             <div className="gauge-data">
               <h1 id="percent" style={fontColor}>
-                  {this.props.value}
-                  <span style={unitSize}>{this.props.unit}</span>
+                  {this.props.data.val}
+                  <span style={unitSize}>{this.props.data.unit}</span>
               </h1>
             </div>
             <h1 id="title" className="gauge-title" 
-              style={fontColor}>{this.props.title}</h1>
+              style={fontColor}>{this.props.data.title}</h1>
           </div>
         </div>
       )
