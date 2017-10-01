@@ -4,11 +4,13 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "hapi": "^16.6.2",
     "moment": "^2.18.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-scripts": "0.9.5",
     "recharts": "^1.0.0-apha.5",
+    "sqlite3": "^3.1.13"
   },
   "devDependencies": {},
   "scripts": {
