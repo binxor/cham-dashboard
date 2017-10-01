@@ -8,7 +8,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-scripts": "0.9.5",
-    "recharts": "^1.0.0-apha.5"
+    "recharts": "^1.0.0-apha.5",
   },
   "devDependencies": {},
   "scripts": {
