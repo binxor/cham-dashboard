@@ -7,7 +7,7 @@ var dbloc = constants.db.location;
 var db = new sqlite3.Database(dbloc); 
 
 const server = new Hapi.Server();
-server.connection({ port: 3001, host: 'localhost' });
+server.connection({ port: 3001, host: 'localhost', routes: { cors: true }  });
 
 server.route([{
     method: 'GET',
