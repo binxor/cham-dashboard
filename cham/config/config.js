@@ -5,6 +5,10 @@ var constants = {
         },
         readings: {
             location: ''
+        },
+        server: {
+            ip: 'localhost',
+            port: 3001
         }
     },
     prod: {
@@ -13,6 +17,10 @@ var constants = {
         },
         readings: {
             location: '/home/pi/Programs/GPIO_sandbox/data/sensordata.db'
+        },
+        server: {
+            ip: '192.168.1.14',
+            port: 3001
         }
     }
 };

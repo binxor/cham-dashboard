@@ -8,9 +8,11 @@ var paramDbLoc = constants[prodOrDev].params.location;
 var dataDbLoc = constants[prodOrDev].readings.location;
 var paramDb = new sqlite3.Database(paramDbLoc); 
 var dataDb = new sqlite3.Database(dataDbLoc); 
+var serverIP = constants[prodOrDev].server.ip;
+var serverPort = constants[prodOrDev].server.port;
 
 const server = new Hapi.Server();
-server.connection({ port: 3001, host: 'localhost', routes: { cors: true }  });
+server.connection({ port: serverPort, host: serverIP, routes: { cors: true }  });
 
 server.route([{
     method: 'GET',

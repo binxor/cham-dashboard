@@ -20,7 +20,9 @@ class FetchData extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:3001/data/params')
+        var domain = location.hostname
+        var url =  'http://' + domain + ':3001/data/params'
+        axios.get(url)
             .then(res => {
                 const data = res.data;
                 this.setState({ data });
