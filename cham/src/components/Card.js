@@ -37,7 +37,7 @@ class Card extends Component {
     return (
       <div className={"Card " + this.props.className} onClick={this.showDetails}>
         <div><h3>{this.props.data.title}</h3></div>
-        <div >
+        <div>
           <h1 className='em0p5'>{this.props.data.val}
             <span style={unitSize}>{this.props.data.unit}</span>
           </h1>

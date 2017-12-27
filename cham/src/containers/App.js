@@ -1,9 +1,44 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import moment from 'moment';
 import 'App.css';
 import Card from 'Card.js';
 import Chart from 'Chart.js';
 import Overlay from 'Overlay.js';
+
+function setReadings(readings) {
+  console.log(readings)
+  return function update(state){
+    return {
+      metrics:{
+        temp: {
+          val: readings.temperature,
+          unit: state.metrics.temp.unit,
+          title: state.metrics.temp.title,
+        },
+        humid:  {
+          val: readings.humidity,
+          unit: state.metrics.humid.unit,
+          title: state.metrics.humid.title,
+        },
+        time: {
+          val: moment(readings.timestamp).format("HH:mm"),
+          unit: state.metrics.time.unit,
+          title: moment(readings.timestamp).format("MM/DD/YYYY")
+        }
+      }
+    }
+  }
+}
+
+function setParams(params) {
+  console.log(params)
+  return function update(state) {
+    return {
+      params: params
+    }
+  }
+}
 
 class App extends Component {
   constructor(props) {
@@ -11,11 +46,12 @@ class App extends Component {
     this.state = {
       overlayVisible: false,
       metrics: {
-        temp: {val:68,unit:"F",title:"Temperature"},
-        humid: {val:85,unit:"%",title:"Humidity"},
-        light: {val:85,unit:"%",title:"Light"},
+        temp: {val:"--",unit:"F",title:"Temperature"},
+        humid: {val:"--",unit:"%",title:"Humidity"},
+        light: {val:"--",unit:"%",title:"Light"},
         time: {val:moment().format("HH:mm"),unit:'',title:"Time"}
-      }
+      },
+      params: []
     };
     this.showOverlay = this.showOverlay.bind(this);
   }
@@ -25,6 +61,26 @@ class App extends Component {
     this.setState((prevState) => ({ 
       overlayVisible: !prevState.overlayVisible 
     }));
+  }
+
+  componentDidMount() {
+    var domain = location.hostname
+    var url =  
+        {
+            params: 'http://' + domain + ':3001/data/params',
+            data:   'http://' + domain + ':3001/data/readings'      
+        }
+    axios.get(url.params)
+        .then(res => {
+            const params = res.data;
+            this.setState(setParams(params))
+        })
+    axios.get(url.data)
+        .then(res => {
+            const readings = res.data;
+            const lastReading = readings.slice(-1)[0];
+            this.setState(setReadings(lastReading))
+        })
   }
 
   render() {

@@ -4,7 +4,7 @@ var constants = {
             location: '/Users/kim/ex1'
         },
         readings: {
-            location: ''
+            location: '/Users/kim/workspace/cham-dashboard/cham/data/sensordata.db'
         },
         server: {
             ip: 'localhost',
