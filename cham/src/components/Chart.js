@@ -13,6 +13,7 @@ class Chart extends Component {
 
   prepareData() {
     const data = this.props.data
+    var resolution = this.props.filter
     var rand = function() {
       return Math.floor(Math.random() * (35)) + 65;
     }
@@ -45,7 +46,8 @@ class Chart extends Component {
     var chartData = []
     if(data){
       data.map(ele => {
-        if (moment(ele.timestamp).isSame(moment(),'day')) {
+        //TODO -- change time axis labels for 'day', 'week', 'month', 'forever'
+        if (moment(ele.timestamp).isSame(moment(),resolution)) {
           chartData.push( {
             name: moment(ele.timestamp).format("HH:mm"),
             Temp: ele.temperature,
@@ -66,6 +68,7 @@ class Chart extends Component {
     return (
       <div style={{}}>
         <h3>{this.props.realData} TEMPERATURE (F) AND HUMIDITY (%)</h3>
+        <div>THIS {this.props.filter.toUpperCase()}</div>
         <AreaChart width={700} height={250} data={this.prepareData()}
               margin={{top: 10, right: 10, left: 40, bottom: 10}}>
           <XAxis dataKey="name"/>

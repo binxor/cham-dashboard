@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import 'App.css';
+import ButtonBar from 'ButtonBar.js';
 import Card from 'Card.js';
 import Chart from 'Chart.js';
-import Overlay from 'Overlay.js';
 var constants = require('../../config/config.js');
 
 function setReadings(readings) {
@@ -62,19 +62,24 @@ class App extends Component {
         time: {val:moment().format("HH:mm"),unit:'',title:"Time"}
       },
       params: [],
-      isActualData: "DEMO"
+      isActualData: "DEMO",
+      chartFilter: "year",
+      buttonBarVal: '', //returned from buttonbar component
+      activeButtonIndex: 1,
+      buttonBarOptions: [
+        {name:'Day',value:'day'},
+        {name:'Week',value:'week'},
+        {name:'Month',value:'month'},
+        {name:'Year',value:'year'}
+      ]
     };
-    this.showOverlay = this.showOverlay.bind(this);
-  }
 
-  showOverlay(e) {
-    e.preventDefault();
-    this.setState((prevState) => ({ 
-      overlayVisible: !prevState.overlayVisible 
-    }));
+    this.onButtonBarChanged = this.onButtonBarChanged.bind(this);
   }
 
   componentDidMount() {
+    var bIndex = this.state.activeButtonIndex;
+    this.onButtonBarChanged(this.state.buttonBarOptions[bIndex].value)
     var domain = constants[constants.devOrProd].server.ip
     var url =  
         {
@@ -95,21 +100,29 @@ class App extends Component {
         })
   }
 
+  onButtonBarChanged(newState) {
+    this.setState({buttonBarVal: newState})
+  }
+
   render() {
     return (
-      <div className="App" onClick={this.showOverlay}>
-        <Overlay visible={this.state.overlayVisible} metrics={this.state.metrics}/>
+      <div className="App">
         <div className="App-header">
           <Card className="card col-sm-4" data={this.state.metrics.temp} params={this.state.params}/>
           <Card className="card col-sm-4" data={this.state.metrics.humid} params={this.state.params}/>
           <Card className="card col-sm-4" data={this.state.metrics.time} />
         </div>
         <div className="App-intro">
-          Select an item above to see details
+          <ButtonBar name="ChartFilter" 
+            activeButtonIndex={this.state.activeButtonIndex}
+            filter={this.state.buttonBarOptions}
+            callbackParent={this.onButtonBarChanged}/>
         </div>
         
         <div className="ChartArea">
-          <Chart data={this.state.chartData} realData={this.state.isActualData}/>
+          <Chart data={this.state.chartData} 
+            realData={this.state.isActualData}
+            filter={this.state.buttonBarVal}/>
         </div>
       </div>
     );
