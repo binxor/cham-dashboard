@@ -5,6 +5,7 @@ import 'App.css';
 import Card from 'Card.js';
 import Chart from 'Chart.js';
 import Overlay from 'Overlay.js';
+var constants = require('../../config/config.js');
 
 function setReadings(readings) {
   console.log(readings)
@@ -74,7 +75,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    var domain = location.hostname
+    var domain = constants[constants.devOrProd].server.ip
     var url =  
         {
             params: 'http://' + domain + ':3001/data/params',
@@ -99,8 +100,8 @@ class App extends Component {
       <div className="App" onClick={this.showOverlay}>
         <Overlay visible={this.state.overlayVisible} metrics={this.state.metrics}/>
         <div className="App-header">
-          <Card className="card col-sm-4" data={this.state.metrics.temp}/>
-          <Card className="card col-sm-4" data={this.state.metrics.humid}/>
+          <Card className="card col-sm-4" data={this.state.metrics.temp} params={this.state.params}/>
+          <Card className="card col-sm-4" data={this.state.metrics.humid} params={this.state.params}/>
           <Card className="card col-sm-4" data={this.state.metrics.time} />
         </div>
         <div className="App-intro">

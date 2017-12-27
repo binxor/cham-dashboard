@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
 
@@ -7,9 +6,7 @@ class FetchData extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            data: []
-        };
+        this.state = { };
 
         this.buildLabel = function(min, max) {
             let labelObj = {};
@@ -17,19 +14,6 @@ class FetchData extends React.Component {
             labelObj[max] = max;
             return labelObj;
         }
-    }
-
-    componentDidMount() {
-        var domain = location.hostname
-        var url =  
-            {
-                params: 'http://' + domain + ':3001/data/params'
-            }
-        axios.get(url.params)
-            .then(res => {
-                const data = res.data;
-                this.setState({ data: data });
-            })
     }
 
     render() {
@@ -45,7 +29,7 @@ class FetchData extends React.Component {
         }
         return (
             <div>
-                {this.state.data.map(d => { 
+                {this.props.params.map(d => { 
                     if(d.name.toLowerCase() === this.props.name.toLowerCase()) {
                       return    <span key={d.id} id={d.name}>
                                     {showMessage(d.min, d.max, this.props.currentVal)}

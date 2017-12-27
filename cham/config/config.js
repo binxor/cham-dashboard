@@ -1,4 +1,5 @@
 var constants = {
+    devOrProd: 'dev',
     dev: {
         params: {
             location: '/Users/kim/ex1'

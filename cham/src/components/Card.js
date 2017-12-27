@@ -45,7 +45,7 @@ class Card extends Component {
         {!this.state.detailsVisible && 'Detail'}
           {this.state.detailsVisible && (
             <div style={extend}>
-            <FetchData name={this.props.data.title} currentVal={this.props.data.val} />
+            <FetchData name={this.props.data.title} currentVal={this.props.data.val} params={this.props.params}/>
           </div>
          )}
         

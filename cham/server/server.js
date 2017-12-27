@@ -3,7 +3,7 @@
 const Hapi = require('hapi');
 var sqlite3 = require('sqlite3').verbose(); 
 var constants = require('../config/config.js'); 
-var prodOrDev = 'dev';
+var prodOrDev = constants.devOrProd;
 var paramDbLoc = constants[prodOrDev].params.location;
 var dataDbLoc = constants[prodOrDev].readings.location;
 var paramDb = new sqlite3.Database(paramDbLoc); 
