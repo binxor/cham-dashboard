@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import { AreaChart, cardinal, XAxis, YAxis,
   CartesianGrid, Tooltip, Area, Legend } from 'recharts';
+import moment from 'moment';
 
 class Chart extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.prepareData = this.prepareData.bind(this);
   }
 
-  render() {
+  prepareData() {
+    const data = this.props.data
     var rand = function() {
       return Math.floor(Math.random() * (35)) + 65;
     }
-    const data = [
+    const test = [
       {name: '0:00', Temp: rand(), Humid: rand(), Light: 0},
       {name: '1:00', Temp: rand(), Humid: rand(), Light: 0},
       {name: '2:00', Temp: rand(), Humid: rand(), Light: 0},
@@ -37,13 +41,32 @@ class Chart extends Component {
       {name: '21:00', Temp: rand(), Humid: rand(), Light: 0},
       {name: '22:00', Temp: rand(), Humid: rand(), Light: 0},
       {name: '23:00', Temp: rand(), Humid: rand(), Light: 0},
-    ];
+    ]
+    var chartData = []
+    if(data){
+      data.map(ele => {
+        if (moment(ele.timestamp).isSame(moment(),'day')) {
+          chartData.push( {
+            name: moment(ele.timestamp).format("HH:mm"),
+            Temp: ele.temperature,
+            Humid: ele.humidity,
+            Light: 0
+          })
+        } 
+        return null
+      })
+    } else {
+      return test
+    }
+    
+    return chartData
+  }
 
-
+  render() {
     return (
       <div style={{}}>
-        <h3>TEMPERATURE (F) AND HUMIDITY (%)</h3>
-        <AreaChart width={700} height={250} data={data}
+        <h3>{this.props.realData} TEMPERATURE (F) AND HUMIDITY (%)</h3>
+        <AreaChart width={700} height={250} data={this.prepareData()}
               margin={{top: 10, right: 10, left: 40, bottom: 10}}>
           <XAxis dataKey="name"/>
           <YAxis/>

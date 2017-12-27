@@ -31,6 +31,15 @@ function setReadings(readings) {
   }
 }
 
+function setChartData(data) {
+  return function update(state) {
+    return {
+      chartData: data,
+      isActualData: "ACTUAL"
+    }
+  }
+}
+
 function setParams(params) {
   console.log(params)
   return function update(state) {
@@ -51,7 +60,8 @@ class App extends Component {
         light: {val:"--",unit:"%",title:"Light"},
         time: {val:moment().format("HH:mm"),unit:'',title:"Time"}
       },
-      params: []
+      params: [],
+      isActualData: "DEMO"
     };
     this.showOverlay = this.showOverlay.bind(this);
   }
@@ -78,6 +88,7 @@ class App extends Component {
     axios.get(url.data)
         .then(res => {
             const readings = res.data;
+            this.setState(setChartData(readings))
             const lastReading = readings.slice(-1)[0];
             this.setState(setReadings(lastReading))
         })
@@ -97,7 +108,7 @@ class App extends Component {
         </div>
         
         <div className="ChartArea">
-          <Chart />
+          <Chart data={this.state.chartData} realData={this.state.isActualData}/>
         </div>
       </div>
     );
