@@ -1,6 +1,8 @@
 {
   "name": "cham",
   "version": "0.1.0",
+  "author": "Kimberly Stanley",
+  "repository": "https://github.com/binxor/cham-dashboard",
   "private": true,
   "dependencies": {
     "axios": "^0.17.1",

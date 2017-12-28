@@ -2,7 +2,7 @@ var constants = {
     devOrProd: 'dev',
     dev: {
         params: {
-            location: '/Users/kim/ex1'
+            location: '/Users/kim/workspace/cham-dashboard/cham/data/ex1'
         },
         readings: {
             location: '/Users/kim/workspace/cham-dashboard/cham/data/sensordata.db'
