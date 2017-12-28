@@ -1,3 +1,3 @@
 .Card :hover { }
 .Card :active { background-color: cadetBlue; }
-.em0p5 { margin-top: -20px; }
+.em0p5 { margin-top: -20px; margin-bottom: 5px;}
