@@ -8,12 +8,21 @@ class Chart extends Component {
     super(props);
     this.state = {};
 
+    this.filterForTime = this.filterForTime.bind(this);
     this.prepareData = this.prepareData.bind(this);
   }
 
   prepareData() {
     const data = this.props.data
     var resolution = this.props.filter
+    var timeScaleFormats = {
+      'minute': "HH:mm:ss",
+      'day':    "HH:mm",
+      'week':   "MMM DD",
+      'month':  "MMM DD",
+      'year':   "MMM YYYY",
+      'default':  "HH:mm:ss"
+    }
     var rand = function() {
       return Math.floor(Math.random() * (35)) + 65;
     }
@@ -45,11 +54,13 @@ class Chart extends Component {
     ]
     var chartData = []
     if(data){
-      data.map(ele => {
+      var filteredData = this.filterForTime(data, resolution)
+      filteredData.map(ele => {
         //TODO -- change time axis labels for 'day', 'week', 'month', 'forever'
         if (moment(ele.timestamp).isSame(moment(),resolution)) {
+          var format = (timeScaleFormats[resolution] ? timeScaleFormats[resolution] : timeScaleFormats["default"])
           chartData.push( {
-            name: moment(ele.timestamp).format("HH:mm"),
+            name: moment(ele.timestamp).format(format),
             Temp: ele.temperature,
             Humid: ele.humidity,
             Light: 0
@@ -62,6 +73,41 @@ class Chart extends Component {
     }
     
     return chartData
+  }
+
+  filterForTime(data, resolution) {
+    var filterData = []
+    var hops = {
+      'minute': "second",
+      'day':    "hour",
+      'week':   "day",
+      'month':  "day",
+      'year':   "month",
+      'default':  "second"
+    }
+    //get first in series from resolution
+    var startTime = moment().subtract(1,resolution)
+    var startIndex = -1
+    for(var t=0; t<data.length; t++){
+      if(moment(data[t].timestamp).isSameOrAfter(startTime)){
+        startIndex = t
+        break
+      }
+    }
+    if(startIndex > -1) {
+      filterData.push(data[startIndex])
+      var nextTimeStamp = moment(data[startIndex].timestamp).add('1',hops[resolution]);
+      //LOOP: check if next data value meets time space criteria
+      //add if yes, skip if no 
+      //check again
+      for (var i=startIndex; i<data.length; i++){
+        if(moment(data[i].timestamp).isSameOrAfter(nextTimeStamp)){
+          filterData.push(data[i])
+          nextTimeStamp = moment(data[i].timestamp).add('1',hops[resolution]);
+        }
+      }
+    } 
+    return filterData
   }
 
   render() {

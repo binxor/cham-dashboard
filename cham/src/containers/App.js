@@ -8,7 +8,6 @@ import Chart from 'Chart.js';
 var constants = require('../../config/config.js');
 
 function setReadings(readings) {
-  console.log(readings)
   return function update(state){
     return {
       metrics:{
@@ -42,7 +41,6 @@ function setChartData(data) {
 }
 
 function setParams(params) {
-  console.log(params)
   return function update(state) {
     return {
       params: params
