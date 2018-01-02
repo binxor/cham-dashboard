@@ -1,9 +1,52 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import moment from 'moment';
 import 'App.css';
+import ButtonBar from 'ButtonBar.js';
 import Card from 'Card.js';
 import Chart from 'Chart.js';
-import Overlay from 'Overlay.js';
+var constants = require('../../config/config.js');
+
+function setReadings(readings) {
+  return function update(state){
+    return {
+      metrics:{
+        temp: {
+          val: readings.temperature,
+          unit: state.metrics.temp.unit,
+          title: state.metrics.temp.title,
+        },
+        humid:  {
+          val: readings.humidity,
+          unit: state.metrics.humid.unit,
+          title: state.metrics.humid.title,
+        },
+        time: {
+          val: moment(readings.timestamp).format("HH:mm"),
+          unit: state.metrics.time.unit,
+          title: moment(readings.timestamp).format("MM/DD/YYYY")
+        }
+      }
+    }
+  }
+}
+
+function setChartData(data) {
+  return function update(state) {
+    return {
+      chartData: data,
+      isActualData: "ACTUAL"
+    }
+  }
+}
+
+function setParams(params) {
+  return function update(state) {
+    return {
+      params: params
+    }
+  }
+}
 
 class App extends Component {
   constructor(props) {
@@ -11,37 +54,73 @@ class App extends Component {
     this.state = {
       overlayVisible: false,
       metrics: {
-        temp: {val:68,unit:"F",title:"Temperature"},
-        humid: {val:85,unit:"%",title:"Humidity"},
-        light: {val:85,unit:"%",title:"Light"},
+        temp: {val:"--",unit:"F",title:"Temperature"},
+        humid: {val:"--",unit:"%",title:"Humidity"},
+        light: {val:"--",unit:"%",title:"Light"},
         time: {val:moment().format("HH:mm"),unit:'',title:"Time"}
-      }
+      },
+      params: [],
+      isActualData: "DEMO",
+      chartFilter: "year",
+      buttonBarVal: '', //returned from buttonbar component
+      activeButtonIndex: 1,
+      buttonBarOptions: [
+        {name:'Day',value:'day'},
+        {name:'Week',value:'week'},
+        {name:'Month',value:'month'},
+        {name:'Year',value:'year'}
+      ]
     };
-    this.showOverlay = this.showOverlay.bind(this);
+
+    this.onButtonBarChanged = this.onButtonBarChanged.bind(this);
   }
 
-  showOverlay(e) {
-    e.preventDefault();
-    this.setState((prevState) => ({ 
-      overlayVisible: !prevState.overlayVisible 
-    }));
+  componentDidMount() {
+    var bIndex = this.state.activeButtonIndex;
+    this.onButtonBarChanged(this.state.buttonBarOptions[bIndex].value)
+    var domain = constants[constants.devOrProd].server.ip
+    var url =  
+        {
+            params: 'http://' + domain + ':3001/data/params',
+            data:   'http://' + domain + ':3001/data/readings'      
+        }
+    axios.get(url.params)
+        .then(res => {
+            const params = res.data;
+            this.setState(setParams(params))
+        })
+    axios.get(url.data)
+        .then(res => {
+            const readings = res.data;
+            this.setState(setChartData(readings))
+            const lastReading = readings.slice(-1)[0];
+            this.setState(setReadings(lastReading))
+        })
+  }
+
+  onButtonBarChanged(newState) {
+    this.setState({buttonBarVal: newState})
   }
 
   render() {
     return (
-      <div className="App" onClick={this.showOverlay}>
-        <Overlay visible={this.state.overlayVisible} metrics={this.state.metrics}/>
+      <div className="App">
         <div className="App-header">
-          <Card className="card col-sm-4" data={this.state.metrics.temp}/>
-          <Card className="card col-sm-4" data={this.state.metrics.humid}/>
+          <Card className="card col-sm-4" data={this.state.metrics.temp} params={this.state.params}/>
+          <Card className="card col-sm-4" data={this.state.metrics.humid} params={this.state.params}/>
           <Card className="card col-sm-4" data={this.state.metrics.time} />
         </div>
         <div className="App-intro">
-          Select an item above to see details
+          <ButtonBar name="ChartFilter" 
+            activeButtonIndex={this.state.activeButtonIndex}
+            filter={this.state.buttonBarOptions}
+            callbackParent={this.onButtonBarChanged}/>
         </div>
         
         <div className="ChartArea">
-          <Chart />
+          <Chart data={this.state.chartData} 
+            realData={this.state.isActualData}
+            filter={this.state.buttonBarVal}/>
         </div>
       </div>
     );
