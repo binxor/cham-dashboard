@@ -2,10 +2,10 @@ var constants = {
     devOrProd: 'dev',
     dev: {
         params: {
-            location: '/Users/kim/workspace/cham-dashboard/cham/data/ex1'
+            location: '../data/ex1'
         },
         readings: {
-            location: '/Users/kim/workspace/cham-dashboard/cham/data/sensordata.db'
+            location: '../data/sensordata.db'
         },
         server: {
             ip: 'localhost',
