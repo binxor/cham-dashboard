@@ -65,6 +65,7 @@ class App extends Component {
       buttonBarVal: '', //returned from buttonbar component
       activeButtonIndex: 1,
       buttonBarOptions: [
+        {name:'Hour',value:'hour'},
         {name:'Day',value:'day'},
         {name:'Week',value:'week'},
         {name:'Month',value:'month'},

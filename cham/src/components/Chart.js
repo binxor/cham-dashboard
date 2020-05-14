@@ -7,107 +7,104 @@ class Chart extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-
-    this.filterForTime = this.filterForTime.bind(this);
+    this.formatandFilterTime = this.formatandFilterTime.bind(this);
     this.prepareData = this.prepareData.bind(this);
+    this.randomData = this.randomData.bind(this);
   }
 
-  prepareData() {
+  randomData(useFilter) {
+    let testData = [], count = 0, label=[];
+    let rand = () => Math.floor(Math.random() * (35)) + 65;
+    let generatePoints = (unit) => {
+      switch(unit) {
+        case 'day':
+          count = 23;
+          label = [
+            '0:00','1:00','2:00','3:00','4:00','5:00',
+            '6:00','7:00', '8:00','9:00','10:00','11:00',
+            '12:00', '13:00', '14:00','15:00','16:00','17:00',
+            '18:00','19:00','20:00','21:00','23:00'
+          ];
+          break;
+        case 'week':
+          count = 7;
+          label = [
+            'Mon','Tue','Wed','Thu','Fri','Sat','Sun'
+          ];
+          break;
+        case 'month':
+          count = 30;
+          for(let j=1; j <= count; j++) {
+            label.push('May '+j)
+          }
+          break;
+        case 'year':
+          count = 12;
+          label = [
+            'Jan','Feb','Mar','Apr','May','Jun',
+            'Jul','Aug','Sep','Oct','Nov','Dec'
+          ];
+          break;
+        case 'hour':
+        default:
+          count = 60;
+          for(let k=0; k < count; k++) {
+            if(k<10) label.push(':0'+k)
+            else label.push(':'+k);
+          }
+          break;
+      }
+      for (let i=0; i < count; i++){
+        testData.push({
+          name: label[i],
+          Temp: rand(), 
+          Humid: rand(), 
+          Light: Math.floor(Math.random() * (100))
+        });
+      }
+    }
+    generatePoints(useFilter);
+    return testData;
+  }
+
+  prepareData(useFilter) {
     const data = this.props.data
-    var resolution = this.props.filter
-    var timeScaleFormats = {
-      'minute': "HH:mm:ss",
-      'day':    "HH:mm",
-      'week':   "MMM DD",
-      'month':  "MMM DD",
-      'year':   "MMM YYYY",
-      'default':  "HH:mm:ss"
-    }
-    var rand = function() {
-      return Math.floor(Math.random() * (35)) + 65;
-    }
-    const test = [
-      {name: '0:00', Temp: rand(), Humid: rand(), Light: 0},
-      {name: '1:00', Temp: rand(), Humid: rand(), Light: 0},
-      {name: '2:00', Temp: rand(), Humid: rand(), Light: 0},
-      {name: '3:00', Temp: rand(), Humid: rand(), Light: 0},
-      {name: '4:00', Temp: rand(), Humid: rand(), Light: 0},
-      {name: '5:00', Temp: rand(), Humid: rand(), Light: 0},
-      {name: '6:00', Temp: rand(), Humid: rand(), Light: 0},
-      {name: '7:00', Temp: rand(), Humid: rand(), Light: 0},
-      {name: '8:00', Temp: rand(), Humid: rand(), Light: 100},
-      {name: '9:00', Temp: rand(), Humid: rand(), Light: 100},
-      {name: '10:00', Temp: rand(), Humid: rand(), Light: 100},
-      {name: '11:00', Temp: rand(), Humid: rand(), Light: 100},
-      {name: '12:00', Temp: rand(), Humid: rand(), Light: 100},
-      {name: '13:00', Temp: rand(), Humid: rand(), Light: 100},
-      {name: '14:00', Temp: rand(), Humid: rand(), Light: 100},
-      {name: '15:00', Temp: rand(), Humid: rand(), Light: 100},
-      {name: '16:00', Temp: rand(), Humid: rand(), Light: 100},
-      {name: '17:00', Temp: rand(), Humid: rand(), Light: 100},
-      {name: '18:00', Temp: rand(), Humid: rand(), Light: 100},
-      {name: '19:00', Temp: rand(), Humid: rand(), Light: 100},
-      {name: '20:00', Temp: rand(), Humid: rand(), Light: 100},
-      {name: '21:00', Temp: rand(), Humid: rand(), Light: 0},
-      {name: '22:00', Temp: rand(), Humid: rand(), Light: 0},
-      {name: '23:00', Temp: rand(), Humid: rand(), Light: 0},
-    ]
     var chartData = []
-    if(data){
-      var filteredData = this.filterForTime(data, resolution)
-      filteredData.map(ele => {
-        //TODO -- change time axis labels for 'day', 'week', 'month', 'forever'
-        if (moment(ele.timestamp).isSame(moment(),resolution)) {
-          var format = (timeScaleFormats[resolution] ? timeScaleFormats[resolution] : timeScaleFormats["default"])
-          chartData.push( {
-            name: moment(ele.timestamp).format(format),
-            Temp: ele.temperature,
-            Humid: ele.humidity,
-            Light: 0
-          })
-        } 
-        return null
-      })
+    if(data) {
+      chartData = this.formatandFilterTime(data, useFilter)
     } else {
-      return test
+      chartData = this.randomData(useFilter)
     }
-    
     return chartData
   }
 
-  filterForTime(data, resolution) {
-    var filterData = []
-    var hops = {
-      'minute': "second",
-      'day':    "hour",
-      'week':   "day",
-      'month':  "day",
-      'year':   "month",
-      'default':  "second"
+  formatandFilterTime(data, unit) {
+    let start;
+    let filteredData = [];
+    var timeFormat = {
+      'hour':   { timestamp: "HH:mm",     start: moment().subtract(1, 'hour').toISOString()   },
+      'day':    { timestamp: "HH:mm",     start: moment().subtract(1, 'day').toISOString()    },
+      'week':   { timestamp: "ddd",    start: moment().subtract(1, 'week').toISOString()   },
+      'month':  { timestamp: "MMM DD",    start: moment().subtract(1, 'month').toISOString()  },
+      'year':   { timestamp: "MMM YYYY",  start: moment().subtract(1, 'year').toISOString()   }
     }
-    //get first in series from resolution
-    var startTime = moment().subtract(1,resolution)
-    var startIndex = -1
-    for(var t=0; t<data.length; t++){
-      if(moment(data[t].timestamp).isSameOrAfter(startTime)){
-        startIndex = t
-        break
+    start = timeFormat[unit] ? timeFormat[unit].start : timeFormat['hour'].start
+    data.forEach(ele => {
+      if ( moment(new Date(ele.timestamp)).isAfter(start) ) {
+        // TODO - format and "thin" data series for unit
+        filteredData.push({
+          name: moment(new Date(ele.timestamp)).format(timeFormat[unit].timestamp),
+          Temp: ele.temperature,
+          Humid: ele.humidity,
+          Light: ele.light || 0
+        })
       }
-    }
-    if(startIndex > -1) {
-      filterData.push(data[startIndex])
-      var nextTimeStamp = moment(data[startIndex].timestamp).add('1',hops[resolution]);
-      //LOOP: check if next data value meets time space criteria
-      //add if yes, skip if no 
-      //check again
-      for (var i=startIndex; i<data.length; i++){
-        if(moment(data[i].timestamp).isSameOrAfter(nextTimeStamp)){
-          filterData.push(data[i])
-          nextTimeStamp = moment(data[i].timestamp).add('1',hops[resolution]);
-        }
-      }
-    } 
-    return filterData
+    });
+    console.log("unit",unit)
+    console.log("start",start)
+    console.log("filteredData",filteredData)
+    
+    return filteredData;
   }
 
   render() {
@@ -115,7 +112,7 @@ class Chart extends Component {
       <div style={{}}>
         <h3>{this.props.realData} TEMPERATURE (F) AND HUMIDITY (%)</h3>
         <div>THIS {this.props.filter.toUpperCase()}</div>
-        <AreaChart width={700} height={250} data={this.prepareData()}
+        <AreaChart width={700} height={250} data={this.prepareData(this.props.filter)}
               margin={{top: 10, right: 10, left: 40, bottom: 10}}>
           <XAxis dataKey="name"/>
           <YAxis/>
@@ -126,8 +123,6 @@ class Chart extends Component {
           <Area type={cardinal} dataKey='Humid' stroke='#351b69' fill='#351b69' fillOpacity={0.3} activeDot={{r: 8}}/>
           <Area type={cardinal} dataKey='Light' stroke='#ccc' fill='#ccc' fillOpacity={0.3} activeDot={{r: 8}}/>
         </AreaChart>
-        
-     
       </div>
     )
   }        
