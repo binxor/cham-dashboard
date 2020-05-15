@@ -4,8 +4,6 @@ import time
 import datetime
 import sqlite3
 from config import pin, db, dbTable, maxFailedSensorPings, sensor
-from write_to_db import write_record
-
 
 # initialize GPIO
 GPIO.setwarnings(True)
@@ -52,7 +50,7 @@ try:
                 if failedSensorPingCount > maxFailedSensorPings:
                     break 
             
-	    time.sleep(6)
+	    time.sleep(60)
 
 except KeyboardInterrupt:
     print("Cleanup")
