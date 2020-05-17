@@ -63,7 +63,7 @@ class App extends Component {
       isActualData: "DEMO",
       chartFilter: "year",
       buttonBarVal: '', //returned from buttonbar component
-      activeButtonIndex: 1,
+      activeButtonIndex: 0,
       buttonBarOptions: [
         {name:'Hour',value:'hour'},
         {name:'Day',value:'day'},

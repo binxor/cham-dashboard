@@ -70,7 +70,7 @@ class Chart extends Component {
   prepareData(useFilter) {
     const data = this.props.data
     var chartData = []
-    if(data) {
+    if(data && data.length > 0) {
       chartData = this.formatandFilterTime(data, useFilter)
     } else {
       chartData = this.randomData(useFilter)
@@ -100,9 +100,6 @@ class Chart extends Component {
         })
       }
     });
-    console.log("unit",unit)
-    console.log("start",start)
-    console.log("filteredData",filteredData)
     
     return filteredData;
   }
