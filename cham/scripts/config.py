@@ -1,5 +1,5 @@
 db='../data/sensordata.db'
 dbTable='dhtreadings'
-maxFailedSensorPings = 5
+maxFailedSensorPings = 15
 pin=27
-sensor='am2302'
+sensor=AM2302
