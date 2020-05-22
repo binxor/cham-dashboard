@@ -12,6 +12,7 @@ var serverIP = constants[prodOrDev].server.ip;
 var serverPort = constants[prodOrDev].server.port;
 
 const server = new Hapi.Server();
+
 server.connection({ port: serverPort, host: serverIP, routes: { cors: true }  });
 
 server.route([{
@@ -40,6 +41,7 @@ server.route([{
     method: 'GET',
     path: '/data/readings',
     handler: function (request, reply) {
+        console.log((new Date()).toISOString())
         reply (new Promise((rsv, rej) => {
 
             dataDb.serialize(function() { 

@@ -1,5 +1,5 @@
 var constants = {
-    devOrProd: 'dev',
+    devOrProd: 'prod',
     dev: {
         params: {
             location: '../data/ex1'
@@ -14,13 +14,13 @@ var constants = {
     },
     prod: {
         params: {
-            location: '/home/pi/ex1'
+            location: '../data/ex1'
         },
         readings: {
-            location: '/home/pi/Programs/GPIO_sandbox/data/sensordata.db'
+            location: '../data/sensordata.db'
         },
         server: {
-            ip: '192.168.1.14',
+            ip: '10.0.0.22',
             port: 3001
         }
     }
