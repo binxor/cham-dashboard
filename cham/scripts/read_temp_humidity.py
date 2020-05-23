@@ -45,8 +45,8 @@ try:
                 failedSensorPingCount+=1
                 print("Temperature: ---- F,\tHumidity: ---- %%\t\t[%s] [%d]" %(str(now), failedSensorPingCount))
 
-                if failedSensorPingCount > maxFailedSensorPings:
-                    break 
+#                if failedSensorPingCount > maxFailedSensorPings:
+#                    break 
             
         time.sleep(60)
 
