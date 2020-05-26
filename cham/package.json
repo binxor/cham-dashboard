@@ -11,6 +11,7 @@
     "moment": "^2.18.1",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.5",
+    "react-device-detect": "^1.12.1",
     "react-dom": "^15.6.1",
     "react-rangeslider": "^2.2.0",
     "react-scripts": "0.9.5",

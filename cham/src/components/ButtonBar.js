@@ -27,7 +27,7 @@ class ButtonBar extends Component {
         value={this.state.activeVal}
           >
           {this.props.filter.map((el, index) =>
-            <ToggleButton bsStyle="primary" bsSize="lg"
+            <ToggleButton bsStyle="primary"
               name={el.name} value={el.value} key={index}
               >
               {el.name}

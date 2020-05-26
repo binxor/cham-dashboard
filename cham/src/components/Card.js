@@ -34,11 +34,17 @@ class Card extends Component {
       width: 100 + '%',
       zIndex: 1000
     };
+    let val;
+    if (this.props.data.title === 'Temp' | this.props.data.title === 'Humidity') {
+        val = Number(this.props.data.val).toFixed(1);
+    } else {
+        val = this.props.data.val;
+    }
     return (
       <div className={"Card " + this.props.className} onClick={this.showDetails}>
         <div><h3>{this.props.data.title}</h3></div>
         <div>
-          <h1 className='em0p5'>{this.props.data.val}
+          <h1 className='em0p5'>{val}
             <span style={unitSize}>{this.props.data.unit}</span>
           </h1>
         </div>
