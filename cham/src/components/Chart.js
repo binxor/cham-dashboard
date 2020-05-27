@@ -8,7 +8,9 @@ import {
   BrowserView,
   MobileView,
   isMobile,
-  isLandscape 
+  isTablet,
+  isLandscape,
+  deviceType
 } from "react-device-detect";
 
 class Chart extends Component {
@@ -113,9 +115,16 @@ class Chart extends Component {
   }
 
   render () {
-    let chartWidth = (isMobile ? (isLandscape ? 500 : 350) : 600 );
+    let chartWidth = 1000;
+    if (isMobile && isLandscape) {
+      chartWidth = 500;
+    } else if (isMobile) {
+      chartWidth = 350;
+    } else if (isTablet) {
+      chartWidth = 800;
+    }
     return (
-      <div style={{}}>
+      <div style={{display: 'inline-block'}}>
         <h3>{this.props.realData} TEMPERATURE (F) AND HUMIDITY (%)</h3>
         <div>THIS {this.props.filter.toUpperCase()}</div>
         <BrowserView>
@@ -144,6 +153,7 @@ class Chart extends Component {
             <Area type={cardinal} dataKey='Light' stroke='#ccc' fill='#ccc' fillOpacity={0.3} activeDot={{ r: 8 }} />
           </AreaChart>
         </MobileView>
+        <div>{deviceType.toUpperCase()}</div>
       </div>
     )
   }
