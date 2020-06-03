@@ -46,7 +46,7 @@ server.route([{
 
             dataDb.serialize(function() { 
             
-                dataDb.all("SELECT * FROM (SELECT * FROM dhtreadings ORDER BY id DESC LIMIT 2000) ORDER BY id ASC", function(err, data) { 
+                dataDb.all("SELECT * FROM (SELECT * FROM dhtreadings ORDER BY id DESC LIMIT 10000) ORDER BY id ASC", function(err, data) { 
                     if(err) rej(err)
                     else rsv(data);
                 }); 
