@@ -1,6 +1,9 @@
 db='../data/sensordata.db'
 dbTable='dhtreadings'
+dbTable_sht_readings='shtreadings'
 maxFailedSensorPings = 15
 pin=27
 sensor='AM2302'
+sensor_sht='SHT-30'
 irLightSensorPin=23
+photoSensorPin=12
