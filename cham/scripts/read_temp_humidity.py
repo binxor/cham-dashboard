@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO
 import time
 import datetime
 import sqlite3
-from config import pin, db, dbTable, maxFailedSensorPings, sensor
+from config import pin, db, dbTable, maxFailedSensorPings, sensor_am
 
 # initialize GPIO
 GPIO.setwarnings(True)
@@ -30,12 +30,12 @@ try:
         if ((temperature is not None) & (humidity is not None)):
                 timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
                 temperature_f = (temperature*9/5) + 32
-                print("Temperature: %-3.1f F,\tHumidity: %-3.1f %%\t\t[%s]" %(temperature_f, humidity,  str(now)))
+                print("[%s] Temperature: %-3.1f F,\tHumidity: %-3.1f %%\t\t[%s]" %(sensor_am, temperature_f, humidity,  str(now)))
                 failedSensorPingCount = 0
 
                 try:
                     sql_statement = "INSERT INTO " + dbTable  + " VALUES(?,?,?,?,?);"
-                    cursor.execute(sql_statement,(None,temperature_f,humidity,timestamp,sensor))
+                    cursor.execute(sql_statement,(None,temperature_f,humidity,timestamp,sensor_am))
                     sqliteConnection.commit()
                 except sqliteConnection.Error as e:
                     print(e)
@@ -43,7 +43,7 @@ try:
 
         else:
                 failedSensorPingCount+=1
-                print("Temperature: ---- F,\tHumidity: ---- %%\t\t[%s] [%d]" %(str(now), failedSensorPingCount))
+                print("[%s] Temperature: ---- F,\tHumidity: ---- %%\t\t[%s] [%d]" %(sensor_am, str(now), failedSensorPingCount))
 
 #                if failedSensorPingCount > maxFailedSensorPings:
 #                    break 

@@ -22,4 +22,5 @@ yarn-error.log*
 config/*.pyc
 scripts/*.pyc
 scripts/__pycache__
-scripts/dht11/*.pyc
+scripts/config.pyc
+scripts/dht11/__init__.pyc
