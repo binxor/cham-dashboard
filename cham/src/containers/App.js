@@ -5,6 +5,8 @@ import 'App.css';
 import ButtonBar from 'ButtonBar.js';
 import Card from 'Card.js';
 import Chart from 'Chart.js';
+import LiveStream from 'LiveStream.js';
+import { deviceType } from "react-device-detect";
 var constants = require('../../config/config.js');
 
 function setReadings (readings) {
@@ -104,6 +106,7 @@ class App extends Component {
   }
 
   render () {
+    let displayChart = deviceType.toUpperCase() === "MOBILE" ? "none" : "inline-block";;
     return (
       <div className="App">
         <div className="App-header row">
@@ -112,18 +115,23 @@ class App extends Component {
           <Card className="card col-sm-4 col-xs-4" data={this.state.metrics.time} />
         </div>
         
-        <div className="App-intro">
+      	<div>
+	        <LiveStream />
+	      </div>
+        
+        <div className="ChartArea" style={{display: displayChart}}>
+          <Chart data={this.state.chartData}
+            realData={this.state.isActualData}
+            filter={this.state.buttonBarVal} />
+        </div>
+
+        <div className="App-intro" style={{display: displayChart}}>
           <ButtonBar name="ChartFilter"
             activeButtonIndex={this.state.activeButtonIndex}
             filter={this.state.buttonBarOptions}
             callbackParent={this.onButtonBarChanged} />
         </div>
 
-        <div className="ChartArea">
-          <Chart data={this.state.chartData}
-            realData={this.state.isActualData}
-            filter={this.state.buttonBarVal} />
-        </div>
       </div>
     );
   }

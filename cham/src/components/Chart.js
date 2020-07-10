@@ -126,7 +126,6 @@ class Chart extends Component {
     return (
       <div style={{display: 'inline-block'}}>
         <h3>{this.props.realData} TEMPERATURE (F) AND HUMIDITY (%)</h3>
-        <div>THIS {this.props.filter.toUpperCase()}</div>
         <BrowserView>
           <AreaChart width={chartWidth} height={250} data={this.prepareData(this.props.filter)}
             margin={{ top: 10, right: 10, left: 40, bottom: 10 }}>
@@ -153,7 +152,7 @@ class Chart extends Component {
             <Area type={cardinal} dataKey='Light' stroke='#ccc' fill='#ccc' fillOpacity={0.3} activeDot={{ r: 8 }} />
           </AreaChart>
         </MobileView>
-        <div>{deviceType.toUpperCase()}</div>
+        <div style={{display:'none'}}>{deviceType.toUpperCase()}</div>
       </div>
     )
   }
