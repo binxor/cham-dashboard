@@ -5,7 +5,7 @@ import 'App.css';
 import ButtonBar from 'ButtonBar.js';
 import Card from 'Card.js';
 import Chart from 'Chart.js';
-import LiveStream from 'LiveStream.js';
+// import LiveStream from 'LiveStream.js';
 import { deviceType } from "react-device-detect";
 var constants = require('../../config/config.js');
 
@@ -115,9 +115,9 @@ class App extends Component {
           <Card className="card col-sm-4 col-xs-4" data={this.state.metrics.time} />
         </div>
         
-      	<div>
+      	{ /* <div>
 	        <LiveStream />
-	      </div>
+	      </div> */}
         
         <div className="ChartArea" style={{display: displayChart}}>
           <Chart data={this.state.chartData}

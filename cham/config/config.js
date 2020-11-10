@@ -1,5 +1,5 @@
 var constants = {
-    devOrProd: 'prod',
+    devOrProd: 'dev',
     local: {
         params: {
             location: '../data/ex1'
@@ -20,7 +20,7 @@ var constants = {
             location: '../data/sensordata.db'
         },
         server: {
-            ip: '10.0.0.22',
+            ip: '10.0.0.13',
             port: 3001
         }
     },

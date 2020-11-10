@@ -3,7 +3,7 @@ import 'LiveStream.css';
 
 var LiveStream = React.createClass({
   getInitialState: function(){
-    return { videoSrc: 'uri'}
+    return { videoSrc: 'http://10.0.0.22:3002/stream.mjpg'}
   },
   componentDidMount: function(){
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
