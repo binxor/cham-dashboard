@@ -54,6 +54,23 @@ server.route([{
             }); 
         })) 
     } 
+},{
+    method: 'GET',
+    path: '/data/readings/{limit}',
+    handler: function (request, reply) {
+        console.log((new Date()).toISOString())
+        reply (new Promise((rsv, rej) => {
+
+            dataDb.serialize(function() { 
+            
+                dataDb.all("SELECT * FROM (SELECT * FROM shtreadings ORDER BY id DESC LIMIT " + Math.min(limit, 10000) + ") ORDER BY id ASC", function(err, data) { 
+                    if(err) rej(err)
+                    else rsv(data);
+                }); 
+
+            }); 
+        })) 
+    } 
 }]);
 
 
