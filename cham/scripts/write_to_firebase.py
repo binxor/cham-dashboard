@@ -17,14 +17,16 @@ try:
     kluge, counter = {}, 0
 
     for f in fields:
-      kluge[f[0]] = rows[0][counter]
-      counter += 1
+        kluge[f[0]] = rows[0][counter]
+        counter += 1
 
+    del kluge["id"]
     kluge_json = json.dumps(kluge)
+
 except ValueError:
     print(ValueError)
 
 
 # FIREBASE CALL
 response = requests.put(firebaseURL, data = kluge_json)
-print("PUT:    ", response.json())
+#print("PUT:    ", response.json())
