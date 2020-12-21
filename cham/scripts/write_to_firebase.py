@@ -7,7 +7,7 @@ table = dbTable_sht_readings
 
 
 # SQLITE3 CALL
-try: 
+try:
     sqliteConnection = sqlite3.connect(db)
     cursor = sqliteConnection.cursor()
     sql_statement = "SELECT * FROM " + table + " ORDER BY id DESC LIMIT 1;"
@@ -21,12 +21,12 @@ try:
         counter += 1
 
     del kluge["id"]
-    kluge_json = json.dumps(kluge)
+    latest = json.dumps({"latest":kluge})
 
 except ValueError:
     print(ValueError)
 
 
 # FIREBASE CALL
-response = requests.put(firebaseURL, data = kluge_json)
+response = requests.patch(firebaseURL, data = latest)
 #print("PUT:    ", response.json())
