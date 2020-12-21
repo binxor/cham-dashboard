@@ -22,7 +22,8 @@ var constants = {
         server: {
             ip: '10.0.0.13',
             port: 3001
-        }
+        },
+        firebaseURL: 'https://YOUR_FIREBASE_URL'
     },
     prod: {
         params: {

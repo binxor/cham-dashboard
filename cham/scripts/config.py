@@ -1,3 +1,4 @@
+firebaseURL='YOUR_FIREBASE_URL'
 db='../data/sensordata.db'
 dbTable='dhtreadings'
 dbTable_sht_readings='shtreadings'

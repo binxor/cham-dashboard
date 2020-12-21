@@ -99,6 +99,12 @@ class App extends Component {
         const lastReading = readings.slice(-1)[ 0 ];
         this.setState(setReadings(lastReading))
       })
+    axios.get(constants[ constants.devOrProd ].firebaseURL)
+      .then(res => {
+        // const lastReading = readings.slice(-1)[ 0 ];
+        // this.setState(setReadings(lastReading))
+        console.log(res.data)
+      })
   }
 
   onButtonBarChanged (newState) {
@@ -114,18 +120,18 @@ class App extends Component {
           <Card className="card col-sm-4 col-xs-4" data={this.state.metrics.humid} params={this.state.params} />
           <Card className="card col-sm-4 col-xs-4" data={this.state.metrics.time} />
         </div>
-        
-      	{ /* <div>
+
+        { /* <div>
 	        <LiveStream />
 	      </div> */}
-        
-        <div className="ChartArea" style={{display: displayChart}}>
+
+        <div className="ChartArea" style={{ display: displayChart }}>
           <Chart data={this.state.chartData}
             realData={this.state.isActualData}
             filter={this.state.buttonBarVal} />
         </div>
 
-        <div className="App-intro" style={{display: displayChart}}>
+        <div className="App-intro" style={{ display: displayChart }}>
           <ButtonBar name="ChartFilter"
             activeButtonIndex={this.state.activeButtonIndex}
             filter={this.state.buttonBarOptions}
