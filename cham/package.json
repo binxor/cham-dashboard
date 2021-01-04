@@ -5,7 +5,7 @@
   "repository": "https://github.com/binxor/cham-dashboard",
   "private": true,
   "dependencies": {
-    "axios": "^0.17.1",
+    "axios": "^0.21.1",
     "bootstrap": "^3.3.7",
     "hapi": "^16.6.2",
     "moment": "^2.18.1",
